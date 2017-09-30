@@ -2,18 +2,12 @@ var app = angular.module('flapperNews', []);
 
 app.controller('MainCtrl', [
 	'$scope',
+	'posts', //Injecting posts service (factory) into conroller so we can access the data
 
-	function($scope)
+	function($scope, posts)
 	{
 		$scope.test = "Hello World!";
-		
-		$scope.posts = [
-			/*{title: 'post 1', upvotes: 5},
-			{title: 'post 2', upvotes: 2},
-			{title: 'post 3', upvotes: 15},
-			{title: 'post 4', upvotes: 9},
-			{title: 'post 5', upvotes: 4}*/
-		];
+		$scope.posts = posts.posts; //Binding $scope.posts var to posts aarray in service
 
 		$scope.addPost = function()
 		{
@@ -34,3 +28,16 @@ app.controller('MainCtrl', [
 		}
 	}
 ]);
+
+// Creates a new object with an array called posts.
+// Sercive (factory) can be injectd into any angular module that needs it
+//Services provide a meand for keeping data around for the lifetime of an application
+//and also can be used across different controllers. Whereas controllers are instantiated
+//only when needed and discarded when not e.g. anytime you switch a route or reload 
+//a page
+app.factory('posts', [function(){
+	var obj = {
+		posts: []
+	};
+	return obj;
+}])
